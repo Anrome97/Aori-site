@@ -271,6 +271,13 @@
       background: #A84A32;
     }
 
+    .form-success {
+      margin-top: 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #2e7d32;
+    }
+
     /* Footer - Banner replicado de Proyectos */
     .site-footer {
       background: #1E1E1E;
@@ -435,10 +442,11 @@
 
         <!-- Nuevo Proyecto -->
         <div id="nuevo" class="form-content active">
-          <form>
+          <form name="cotiza-nuevo" data-aori-form>
+            <input type="hidden" name="formulario" value="nuevo_proyecto">
             <div class="form-group">
               <label>¿Qué es? <span class="required">*</span></label>
-              <select required>
+              <select name="tipo_proyecto" required>
                 <option value="" disabled selected>Selecciona una opción</option>
                 <option>Casa</option>
                 <option>Comercio</option>
@@ -450,7 +458,7 @@
             </div>
             <div class="form-group">
               <label>¿Cuánto mide tu terreno? <span class="required">*</span></label>
-              <select required>
+              <select name="terreno" required>
                 <option value="" disabled selected>Selecciona una opción</option>
                 <option>200-300 m2</option>
                 <option>300-400 m2</option>
@@ -463,34 +471,36 @@
             </div>
             <div class="form-group">
               <label>Provincia/Pais de Ubicación <span class="required">*</span></label>
-              <input type="text" required>
+              <input type="text" name="ubicacion" required>
             </div>
             <div class="form-group">
               <label>Describe lo que necesitas <span class="required">*</span></label>
-              <textarea required></textarea>
+              <textarea name="descripcion" required></textarea>
             </div>
             <div class="form-group">
               <label>Nombre <span class="required">*</span></label>
-              <input type="text" required>
+              <input type="text" name="nombre" required>
             </div>
             <div class="form-group">
               <label>Correo <span class="required">*</span></label>
-              <input type="email" required>
+              <input type="email" name="correo" required>
             </div>
             <div class="form-group">
               <label>Whatsapp <span class="required">*</span></label>
-              <input type="tel" required>
+              <input type="tel" name="whatsapp" required>
             </div>
             <button type="submit" class="submit-btn">Enviar</button>
+            <p class="form-success" hidden>¡Gracias! Recibimos tu solicitud, te contactaremos pronto.</p>
           </form>
         </div>
 
         <!-- Proyecto de Remodelación -->
         <div id="Remodelación" class="form-content">
-          <form>
+          <form name="cotiza-remodelacion" data-aori-form>
+            <input type="hidden" name="formulario" value="remodelacion">
             <div class="form-group">
               <label>¿Qué es? <span class="required">*</span></label>
-              <select required>
+              <select name="tipo_remodelacion" required>
                 <option value="" disabled selected>Selecciona una opción</option>
                 <option>Fachada</option>
                 <option>Cocina</option>
@@ -503,30 +513,32 @@
             </div>
             <div class="form-group">
               <label>Describe lo que necesitas <span class="required">*</span></label>
-              <textarea required></textarea>
+              <textarea name="descripcion" required></textarea>
             </div>
             <div class="form-group">
               <label>Nombre <span class="required">*</span></label>
-              <input type="text" required>
+              <input type="text" name="nombre" required>
             </div>
             <div class="form-group">
               <label>Correo <span class="required">*</span></label>
-              <input type="email" required>
+              <input type="email" name="correo" required>
             </div>
             <div class="form-group">
               <label>Whatsapp <span class="required">*</span></label>
-              <input type="tel" required>
+              <input type="tel" name="whatsapp" required>
             </div>
             <button type="submit" class="submit-btn">Enviar</button>
+            <p class="form-success" hidden>¡Gracias! Recibimos tu solicitud, te contactaremos pronto.</p>
           </form>
         </div>
 
         <!-- BIM -->
         <div id="bim" class="form-content">
-          <form>
+          <form name="cotiza-bim" data-aori-form>
+            <input type="hidden" name="formulario" value="bim">
             <div class="form-group">
               <label>Tipo de servicio BIM <span class="required">*</span></label>
-              <select required>
+              <select name="servicio_bim" required>
                 <option value="" disabled selected>Selecciona una opción</option>
                 <option>BIM Management y Coordinación BIM</option>
                 <option>Modelamiento BIM de Arquitectura, Estructuras y MEP</option>
@@ -541,25 +553,26 @@
             </div>
             <div class="form-group">
               <label>Provincia/Pais de Ubicación <span class="required">*</span></label>
-              <input type="text" required>
+              <input type="text" name="ubicacion" required>
             </div>
             <div class="form-group">
               <label>Describe lo que necesitas <span class="required">*</span></label>
-              <textarea required></textarea>
+              <textarea name="descripcion" required></textarea>
             </div>
             <div class="form-group">
               <label>Nombre <span class="required">*</span></label>
-              <input type="text" required>
+              <input type="text" name="nombre" required>
             </div>
             <div class="form-group">
               <label>Correo <span class="required">*</span></label>
-              <input type="email" required>
+              <input type="email" name="correo" required>
             </div>
             <div class="form-group">
               <label>Whatsapp <span class="required">*</span></label>
-              <input type="tel" required>
+              <input type="tel" name="whatsapp" required>
             </div>
             <button type="submit" class="submit-btn">Enviar</button>
+            <p class="form-success" hidden>¡Gracias! Recibimos tu solicitud, te contactaremos pronto.</p>
           </form>
         </div>
 
@@ -608,6 +621,35 @@
   <div class="page-transition"></div>
 
   <script src="../js/main.js"></script>
+  <script>
+    // Envío de formularios a Google Sheets (Apps Script)
+    const AORI_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwIdyWk1nz1VU65PLN71H4dz1aIB0s1EYkAIOPz0WvA4ANUrt_fe39htAkDhGJ7Z_yJaw/exec";
+    document.querySelectorAll('form[data-aori-form]').forEach(function(form) {
+      form.addEventListener('submit', function(ev) {
+        ev.preventDefault();
+        if (AORI_SCRIPT_URL.indexOf('PEGA_AQUI') === 0) {
+          alert('Formulario en configuración, intenta más tarde.');
+          return;
+        }
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        const btn = form.querySelector('.submit-btn');
+        const msg = form.querySelector('.form-success');
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+        fetch(AORI_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
+          .then(function() {
+            form.reset();
+            if (msg) msg.hidden = false;
+            btn.textContent = 'Enviado';
+          })
+          .catch(function() {
+            btn.disabled = false;
+            btn.textContent = 'Enviar';
+            alert('Ocurrió un error, intenta nuevamente.');
+          });
+      });
+    });
+  </script>
   <script>
     // Tab functionality
     function openTab(evt, tabName) {
