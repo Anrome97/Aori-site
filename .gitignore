@@ -1,0 +1,5 @@
+# Plantillas y zips de referencia (no se publican)
+*.zip
+kross/
+massively/
+phantom/
