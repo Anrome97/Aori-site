@@ -1,0 +1,686 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Cotiza tu proyecto | AORI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #F7F5F2;
+      color: #1a1a1a;
+      overflow-x: hidden;
+    }
+
+    /* Top bar */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: #F7F5F2;
+      transition: all 0.4s ease;
+    }
+
+    .top-bar.scrolled {
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      padding: 1rem 3rem;
+    }
+
+    .logo-link {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .logo-link:hover {
+      color: #C45A3C;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-left: auto;
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .top-nav a {
+      color: #1a1a1a;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .top-nav a:hover {
+      color: #C45A3C;
+    }
+
+    .cta-btn {
+      padding: 0.8rem 1.8rem;
+      background: #C45A3C;
+      color: #F7F5F2;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      background: #A84A32;
+    }
+
+    .top-nav a.cta-btn,
+    .top-nav a.cta-btn:hover {
+      color: #F7F5F2;
+    }
+
+    /* Social sidebar - Left */
+    .social-sidebar {
+      position: fixed;
+      left: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .social-sidebar a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #999;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      writing-mode: vertical-rl;
+      transition: all 0.3s ease;
+    }
+
+    .social-sidebar a:hover {
+      color: #1a1a1a;
+    }
+
+    .social-sidebar .divider {
+      width: 1px;
+      height: 20px;
+      background: #ccc;
+    }
+
+    /* Main Content */
+    .cotiza-section {
+      padding: 8rem 4rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .cotiza-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .cotiza-image {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, #d4c8b8, #c8b8a8);
+    }
+
+    .cotiza-form-area h2 {
+      font-family: 'Inter', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 2rem;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 2rem;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      background: #999;
+      color: #F7F5F2;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .tab-btn:hover {
+      background: #777;
+    }
+
+    .tab-btn.active {
+      background: #1a1a1a;
+    }
+
+    /* Form */
+    .form-content {
+      display: none;
+    }
+
+    .form-content.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group label .required {
+      color: #C45A3C;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ddd;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #1a1a1a;
+      background: #fff;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #C45A3C;
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      background: #C45A3C;
+      color: #F7F5F2;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background: #A84A32;
+    }
+
+    .form-success {
+      margin-top: 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #2e7d32;
+    }
+
+    /* Footer - Banner replicado de Proyectos */
+    .site-footer {
+      background: #1E1E1E;
+      color: #1E1E1E;
+      padding: 6rem 3rem 3rem 1.5rem;
+      margin-top: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-bg-text {
+      position: absolute;
+      bottom: -2rem;
+      right: 3rem;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(6rem, 15vw, 14rem);
+      font-weight: 700;
+      color: rgba(247,245,242,0.03);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 4rem;
+      max-width: 1400px;
+      position: relative;
+      z-index: 2;
+      align-items: stretch;
+    }
+
+    .footer-brand p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: rgba(247,245,242,0.6);
+      line-height: 1.8;
+      max-width: 350px;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-col a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: rgba(247,245,242,0.5);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer-col a:hover {
+      color: #F7F5F2;
+    }
+
+    .footer-col-contact {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-phones {
+      margin-top: auto;
+    }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-contact-item span {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: rgba(247,245,242,0.5);
+    }
+
+    .footer-bottom {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(247,245,242,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-bottom p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(247,245,242,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .social-sidebar {
+        display: none;
+      }
+
+      .top-right { display: flex; align-items: center; gap: 3rem; margin-left: auto; }
+
+      .cotiza-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cotiza-section {
+        padding: 6rem 1.5rem 3rem;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .site-footer {
+        padding: 4rem 1.5rem 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+  <nav class="top-bar" id="topBar">
+    <a href="../index.html" class="logo-link">AORI</a>
+    <div class="top-right">
+      <ul class="top-nav">
+        <li><a href="../sobre-nosotros/index.html">Nosotros</a></li>
+        <li><a href="../projects/index.html">Proyectos</a></li>
+        <li><a href="../metodologia/index.html">Metodología</a></li>
+        <li><a href="#" class="cta-btn">Cotiza tu proyecto</a></li>
+        <li><a href="../contacto/index.html">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Social Sidebar -->
+  <div class="social-sidebar">
+    <a href="https://www.instagram.com/aoriestudio/?hl=es" target="_blank" rel="noopener">IG</a>
+    <div class="divider"></div>
+    <a href="#">IN</a>
+  </div>
+
+  <!-- Main Content -->
+  <section class="cotiza-section">
+    <div class="cotiza-grid">
+      <div class="cotiza-image"></div>
+      <div class="cotiza-form-area">
+        <h2>Selecciona el tipo de proyecto</h2>
+        
+        <div class="tabs">
+          <button class="tab-btn active" onclick="openTab(event, 'nuevo')">Nuevo Proyecto</button>
+          <button class="tab-btn" onclick="openTab(event, 'Remodelación')">Proyecto de Remodelación</button>
+          <button class="tab-btn" onclick="openTab(event, 'bim')">BIM</button>
+        </div>
+
+        <!-- Nuevo Proyecto -->
+        <div id="nuevo" class="form-content active">
+          <form name="cotiza-nuevo" data-aori-form>
+            <input type="hidden" name="formulario" value="nuevo_proyecto">
+            <div class="form-group">
+              <label>¿Qué es? <span class="required">*</span></label>
+              <select name="tipo_proyecto" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option>Casa</option>
+                <option>Comercio</option>
+                <option>Educación</option>
+                <option>Salud</option>
+                <option>Retail</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>¿Cuánto mide tu terreno? <span class="required">*</span></label>
+              <select name="terreno" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option>200-300 m2</option>
+                <option>300-400 m2</option>
+                <option>400-500 m2</option>
+                <option>500-600 m2</option>
+                <option>600-800 m2</option>
+                <option>800-1000 m2</option>
+                <option>1000 m2 o mas</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Provincia/Pais de Ubicación <span class="required">*</span></label>
+              <input type="text" name="ubicacion" required>
+            </div>
+            <div class="form-group">
+              <label>Describe lo que necesitas <span class="required">*</span></label>
+              <textarea name="descripcion" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>Nombre <span class="required">*</span></label>
+              <input type="text" name="nombre" required>
+            </div>
+            <div class="form-group">
+              <label>Correo <span class="required">*</span></label>
+              <input type="email" name="correo" required>
+            </div>
+            <div class="form-group">
+              <label>Whatsapp <span class="required">*</span></label>
+              <input type="tel" name="whatsapp" required>
+            </div>
+            <button type="submit" class="submit-btn">Enviar</button>
+            <p class="form-success" hidden>¡Gracias! Recibimos tu solicitud, te contactaremos pronto.</p>
+          </form>
+        </div>
+
+        <!-- Proyecto de Remodelación -->
+        <div id="Remodelación" class="form-content">
+          <form name="cotiza-remodelacion" data-aori-form>
+            <input type="hidden" name="formulario" value="remodelacion">
+            <div class="form-group">
+              <label>¿Qué es? <span class="required">*</span></label>
+              <select name="tipo_remodelacion" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option>Fachada</option>
+                <option>Cocina</option>
+                <option>Baño</option>
+                <option>Terraza</option>
+                <option>Habitación</option>
+                <option>Sala/Comedor</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Describe lo que necesitas <span class="required">*</span></label>
+              <textarea name="descripcion" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>Nombre <span class="required">*</span></label>
+              <input type="text" name="nombre" required>
+            </div>
+            <div class="form-group">
+              <label>Correo <span class="required">*</span></label>
+              <input type="email" name="correo" required>
+            </div>
+            <div class="form-group">
+              <label>Whatsapp <span class="required">*</span></label>
+              <input type="tel" name="whatsapp" required>
+            </div>
+            <button type="submit" class="submit-btn">Enviar</button>
+            <p class="form-success" hidden>¡Gracias! Recibimos tu solicitud, te contactaremos pronto.</p>
+          </form>
+        </div>
+
+        <!-- BIM -->
+        <div id="bim" class="form-content">
+          <form name="cotiza-bim" data-aori-form>
+            <input type="hidden" name="formulario" value="bim">
+            <div class="form-group">
+              <label>Tipo de servicio BIM <span class="required">*</span></label>
+              <select name="servicio_bim" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option>BIM Management y Coordinación BIM</option>
+                <option>Modelamiento BIM de Arquitectura, Estructuras y MEP</option>
+                <option>Coordinación multidisciplinaria y detección de interferencias</option>
+                <option>Revisión y auditoría de modelos BIM</option>
+                <option>RDI, control de información y documentación</option>
+                <option>Planificación y seguimiento de obra</option>
+                <option>Modelos y documentación As-Built</option>
+                <option>Apoyo técnico para licitaciones públicas y privadas</option>
+                <option>Capacitación y formación BIM para equipos profesionales</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Provincia/Pais de Ubicación <span class="required">*</span></label>
+              <input type="text" name="ubicacion" required>
+            </div>
+            <div class="form-group">
+              <label>Describe lo que necesitas <span class="required">*</span></label>
+              <textarea name="descripcion" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>Nombre <span class="required">*</span></label>
+              <input type="text" name="nombre" required>
+            </div>
+            <div class="form-group">
+              <label>Correo <span class="required">*</span></label>
+              <input type="email" name="correo" required>
+            </div>
+            <div class="form-group">
+              <label>Whatsapp <span class="required">*</span></label>
+              <input type="tel" name="whatsapp" required>
+            </div>
+            <button type="submit" class="submit-btn">Enviar</button>
+            <p class="form-success" hidden>¡Gracias! Recibimos tu solicitud, te contactaremos pronto.</p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <p>Diseñamos espacios donde cada elemento tiene un propósito y cada decisión aporta valor. A través de la arquitectura, la Metodología y la integración de información, transformamos ideas en entornos eficientes, funciónales y duraderos. Creemos que la arquitectura no se define por los objetos que contiene, sino por las relaciones que crea. Porque la verdadera arquitectura ocurre en el espacio entre las cosas.</p>
+      </div>
+      <div class="footer-col footer-col-contact">
+        <div class="footer-emails">
+          <div class="footer-contact-item">
+            <span>proyectos@aori.site</span>
+          </div>
+          <div class="footer-contact-item">
+            <span>angelrodriguez@aori.site</span>
+          </div>
+        </div>
+        <div class="footer-phones">
+          <div class="footer-contact-item">
+            <span>+51 914 247 112</span>
+          </div>
+          <div class="footer-contact-item">
+            <span>+51 987 120 714</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <ul>
+          <li><a href="https://www.instagram.com/aoriestudio/?hl=es" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 AORI. Todos los derechos reservados.</p>
+    </div>
+    <div class="footer-bg-text">AORI</div>
+  </footer>
+
+  <!-- Page Transition -->
+  <div class="page-transition"></div>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // Envío de formularios a Google Sheets (Apps Script)
+    const AORI_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwIdyWk1nz1VU65PLN71H4dz1aIB0s1EYkAIOPz0WvA4ANUrt_fe39htAkDhGJ7Z_yJaw/exec";
+    document.querySelectorAll('form[data-aori-form]').forEach(function(form) {
+      form.addEventListener('submit', function(ev) {
+        ev.preventDefault();
+        if (AORI_SCRIPT_URL.indexOf('PEGA_AQUI') === 0) {
+          alert('Formulario en configuración, intenta más tarde.');
+          return;
+        }
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        const btn = form.querySelector('.submit-btn');
+        const msg = form.querySelector('.form-success');
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+        fetch(AORI_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
+          .then(function() {
+            form.reset();
+            if (msg) msg.hidden = false;
+            btn.textContent = 'Enviado';
+          })
+          .catch(function() {
+            btn.disabled = false;
+            btn.textContent = 'Enviar';
+            alert('Ocurrió un error, intenta nuevamente.');
+          });
+      });
+    });
+  </script>
+  <script>
+    // Tab functionality
+    function openTab(evt, tabName) {
+      var i, tabContent, tabBtn;
+      
+      tabContent = document.getElementsByClassName('form-content');
+      for (i = 0; i < tabContent.length; i++) {
+        tabContent[i].classList.remove('active');
+      }
+      
+      tabBtn = document.getElementsByClassName('tab-btn');
+      for (i = 0; i < tabBtn.length; i++) {
+        tabBtn[i].classList.remove('active');
+      }
+      
+      document.getElementById(tabName).classList.add('active');
+      evt.currentTarget.classList.add('active');
+    }
+
+    // Top bar scroll effect
+    window.addEventListener('scroll', function() {
+      const topBar = document.getElementById('topBar');
+      if (window.scrollY > 50) {
+        topBar.classList.add('scrolled');
+      } else {
+        topBar.classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>
+</html>
+
