@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Remodelación Valdelomar | AORI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/main.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #F7F5F2; color: #1E1E1E; overflow-x: hidden; }
+
+    .project-hero { position: relative; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .hero-placeholder { position: absolute; inset: 0; }
+    .hero-content { position: relative; z-index: 2; text-align: center; }
+    .hero-content .subtitle { font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 400; color: #1E1E1E; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+    .hero-content h1 { font-family: 'Inter', sans-serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; color: #1E1E1E; letter-spacing: -0.02em; }
+
+    .social-sidebar { position: fixed; left: 1.5rem; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 1rem; align-items: center; }
+    .social-sidebar a { font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500; color: #8C8C8C; letter-spacing: 0.05em; text-decoration: none; writing-mode: vertical-rl; transition: all 0.3s ease; }
+    .social-sidebar a:hover { color: #1E1E1E; }
+    .social-sidebar .divider { width: 1px; height: 20px; background: #ccc; }
+
+    .project-nav-side { position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 3rem; align-items: center; }
+    .project-nav-side a { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500; color: #1E1E1E; letter-spacing: 0.05em; text-decoration: none; writing-mode: vertical-rl; transition: all 0.3s ease; cursor: pointer; padding: 1rem 0.5rem; }
+    .project-nav-side a:hover { color: #C45A3C; }
+
+    .top-bar { position: fixed; top: 0; left: 0; width: 100%; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: #F7F5F2; transition: all 0.4s ease; }
+    .top-bar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); padding: 1rem 3rem; }
+    .logo-link { font-family: 'Inter', sans-serif; font-size: 1.8rem; font-weight: 700; color: #1E1E1E; letter-spacing: -0.02em; text-decoration: none; transition: all 0.3s ease; }
+    .logo-link:hover { color: #C45A3C; }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-left: auto;
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .top-nav a { color: #1E1E1E; font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: all 0.3s ease; }
+    .top-nav a:hover { color: #C45A3C; }
+    .cta-btn { padding: 0.8rem 1.8rem; background: #C45A3C; color: #F7F5F2; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600; text-decoration: none; letter-spacing: 0.05em; transition: all 0.3s ease; }
+    .cta-btn:hover { background: #A84A32; }
+
+    .top-nav a.cta-btn,
+    .top-nav a.cta-btn:hover { color: #F7F5F2; }
+
+    .project-content { padding: 5rem 4rem; max-width: 900px; margin: 0 auto; }
+    .project-content h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 400; margin-bottom: 1.5rem; color: #1E1E1E; }
+    .project-content p { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #8C8C8C; line-height: 1.9; margin-bottom: 1.5rem; }
+
+    .details-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; padding: 4rem; background: #EDEAE5; margin: 3rem 0; }
+    .detail-item { text-align: center; }
+    .detail-item .label { font-family: 'Inter', sans-serif; font-size: 0.65rem; font-weight: 500; color: #8C8C8C; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .detail-item .value { font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; color: #1E1E1E; }
+
+    .project-gallery { padding: 0 4rem 5rem; }
+    .project-gallery h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 400; margin-bottom: 2rem; color: #1E1E1E; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .gallery-item { aspect-ratio: 16/10; overflow: hidden; cursor: pointer; }
+    .gallery-placeholder { width: 100%; height: 100%; transition: all 0.5s ease; }
+    .gallery-item:hover .gallery-placeholder { transform: scale(1.03); }
+
+    .site-footer { background: #1E1E1E; color: #1E1E1E; padding: 4rem; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+    .footer-inner p { font-family: 'Inter', sans-serif; font-size: 0.75rem; color: rgba(247,245,242,0.4); }
+    .footer-inner a { font-family: 'Inter', sans-serif; font-size: 0.75rem; color: #C45A3C; text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .social-sidebar, .project-nav-side { display: none; }
+      .project-content, .project-gallery { padding-left: 2rem; padding-right: 2rem; }
+      .details-grid { grid-template-columns: repeat(2, 1fr); padding: 2rem; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .top-right { display: flex; align-items: center; gap: 3rem; margin-left: auto; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-bar" id="topBar">
+    <a href="../../index.html" class="logo-link">AORI</a>
+    <div class="top-right">
+      <ul class="top-nav">
+        <li><a href="../../sobre-nosotros/index.html">Nosotros</a></li>
+        <li><a href="../index.html">Proyectos</a></li>
+        <li><a href="../../metodologia/index.html">Metodología</a></li>
+        <li><a href="../../cotiza/index.html" class="cta-btn">Cotiza tu proyecto</a></li>
+        <li><a href="../../contacto/index.html">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="social-sidebar">
+    <a href="https://www.instagram.com/aoriestudio/?hl=es" target="_blank" rel="noopener">IG</a>
+    <div class="divider"></div>
+    <a href="#">IN</a>
+  </div>
+
+  <div class="project-nav-side">
+    <a href="../proyecto5/index.html">Proyecto Anterior</a>
+    <a href="../proyecto7/index.html">Siguiente Proyecto</a>
+  </div>
+
+  <section class="project-hero">
+    <div class="hero-placeholder" style="background: linear-gradient(135deg, #c8d0b8 0%, #b8c0a8 100%);"></div>
+    <div class="hero-content">
+      <p class="subtitle">Remodelación</p>
+      <h1>Valdelomar</h1>
+    </div>
+  </section>
+
+  <section class="project-content">
+    <h2>Descripción del Proyecto</h2>
+    <p>La Remodelación Valdelomar transforma un interior existente en un espacio contemporáneo y funcional. La intervención optimiza la distribución y renueva por completo la materialidad.</p><p>El levantamiento y modelado BIM del estado actual permitió planificar la obra con precisión milimétrica.</p>
+  </section>
+
+  <div class="details-grid">
+    <div class="detail-item">
+      <p class="label">Tipo</p>
+      <p class="value">Diseño de Interiores</p>
+    </div>
+    <div class="detail-item">
+      <p class="label">Área</p>
+      <p class="value">180 m2</p>
+    </div>
+    <div class="detail-item">
+      <p class="label">Ubicación</p>
+      <p class="value">Iquitos, Peru</p>
+    </div>
+    <div class="detail-item">
+      <p class="label">AÑO</p>
+      <p class="value">2024</p>
+    </div>
+  </div>
+
+  <section class="project-gallery">
+    <h2>Galeria</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item"><div class="gallery-placeholder" style="background: linear-gradient(135deg, #c8d0b8, #b8c0a8);"></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder" style="background: linear-gradient(135deg, #d0d8c0, #c0c8b0);"></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder" style="background: linear-gradient(135deg, #b8c0a8, #a8b098);"></div></div>
+      <div class="gallery-item"><div class="gallery-placeholder" style="background: linear-gradient(135deg, #c0c8b0, #b0b8a0);"></div></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>&copy; 2024 AORI | Arquitectura Esencial & tecnología BIM</p>
+      <a href="../index.html">Volver a Proyectos</a>
+    </div>
+  </footer>
+
+  <div class="page-transition"></div>
+  <script src="../../js/main.js"></script>
+  <script>
+    window.addEventListener('scroll', function() {
+      var topBar = document.getElementById('topBar');
+      if (window.scrollY > 50) { topBar.classList.add('scrolled'); }
+      else { topBar.classList.remove('scrolled'); }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+

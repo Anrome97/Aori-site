@@ -1,0 +1,668 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Proyectos | AORI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portafolio de proyectos de arquitectura y gestión BIM - AORI">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #F7F5F2;
+      color: #1E1E1E;
+      overflow-x: hidden;
+    }
+
+    /* Top bar */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: #F7F5F2;
+      transition: all 0.4s ease;
+    }
+
+    .top-bar.scrolled {
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      padding: 1rem 3rem;
+    }
+
+    .logo-link {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1E1E1E;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .logo-link:hover {
+      color: #C45A3C;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-left: auto;
+    }
+
+    .top-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .top-nav a {
+      color: #1E1E1E;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .top-nav a:hover {
+      color: #C45A3C;
+    }
+
+    .cta-btn {
+      padding: 0.8rem 1.8rem;
+      background: #C45A3C;
+      color: #F7F5F2;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      background: #A84A32;
+    }
+
+    .top-nav a.cta-btn,
+    .top-nav a.cta-btn:hover {
+      color: #F7F5F2;
+    }
+
+    /* Social sidebar */
+    .social-sidebar {
+      position: fixed;
+      left: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .social-sidebar a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #8C8C8C;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      writing-mode: vertical-rl;
+      transition: all 0.3s ease;
+    }
+
+    .social-sidebar a:hover {
+      color: #1E1E1E;
+    }
+
+    .social-sidebar .divider {
+      width: 1px;
+      height: 20px;
+      background: #8C8C8C;
+    }
+
+    /* Filters */
+    .filter-section {
+      width: 100%;
+      padding: 2rem 4rem;
+      background: #F7F5F2;
+      margin-top: 5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .filter-btn {
+      padding: 0.6rem 2rem;
+      background: transparent;
+      border: 1px solid #C45A3C;
+      color: #8C8C8C;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover {
+      border-color: #1E1E1E;
+      color: #1E1E1E;
+    }
+
+    .filter-btn.active {
+      background: #1E1E1E;
+      border-color: #1E1E1E;
+      color: #F7F5F2;
+    }
+
+    /* Masonry Grid */
+    .projects-section {
+      padding: 1rem 4rem 0;
+      background: #F7F5F2;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    .masonry-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 10px;
+      gap: 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .masonry-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .masonry-item.span-tall { grid-row: span 15; }
+    .masonry-item.span-medium { grid-row: span 12; }
+    .masonry-item.span-short { grid-row: span 10; }
+
+    .masonry-item img {
+      width: 100%;
+      display: block;
+      transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .masonry-item:hover img {
+      transform: scale(1.03);
+    }
+
+    .masonry-item .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(30,30,30,0.7) 0%, transparent 50%);
+      opacity: 0;
+      transition: all 0.5s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+    }
+
+    .masonry-item:hover .overlay {
+      opacity: 1;
+    }
+
+    .overlay .category {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      color: #C45A3C;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .overlay h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.2rem;
+      color: #1E1E1E;
+      font-weight: 400;
+    }
+
+    /* Placeholder images */
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .img-1 { background: linear-gradient(135deg, #e8e0d4 0%, #d4c8b8 100%); }
+    .img-2 { background: linear-gradient(135deg, #c8b898 0%, #b8a888 100%); }
+    .img-3 { background: linear-gradient(135deg, #a8b8a0 0%, #98a890 100%); }
+    .img-4 { background: linear-gradient(135deg, #8898a8 0%, #7888a0 100%); }
+    .img-5 { background: linear-gradient(135deg, #b8a898 0%, #a89888 100%); }
+    .img-6 { background: linear-gradient(135deg, #d8c8b8 0%, #c8b8a8 100%); }
+    .img-7 { background: linear-gradient(135deg, #a8a8b8 0%, #9898a8 100%); }
+    .img-8 { background: linear-gradient(135deg, #c8c0b0 0%, #b8b0a0 100%); }
+    .img-9 { background: linear-gradient(135deg, #b8c0a8 0%, #a8b098 100%); }
+    .img-10 { background: linear-gradient(135deg, #d0c8b8 0%, #c0b8a8 100%); }
+    .img-11 { background: linear-gradient(135deg, #a0a8b0 0%, #9098a0 100%); }
+    .img-12 { background: linear-gradient(135deg, #c0b8a0 0%, #b0a890 100%); }
+
+    /* Footer - Black transition */
+    .site-footer {
+      background: #1E1E1E;
+      color: #1E1E1E;
+      padding: 6rem 3rem 3rem 1.5rem;
+      margin-top: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-bg-text {
+      position: absolute;
+      bottom: -2rem;
+      right: 3rem;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(6rem, 15vw, 14rem);
+      font-weight: 700;
+      color: rgba(247,245,242,0.03);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 4rem;
+      max-width: 1400px;
+      position: relative;
+      z-index: 2;
+      align-items: stretch;
+    }
+
+    .footer-col-contact {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-phones {
+      margin-top: auto;
+    }
+
+    .footer-brand h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1E1E1E;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-brand p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: rgba(247,245,242,0.6);
+      line-height: 1.8;
+      max-width: 350px;
+    }
+
+    .footer-col h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1E1E1E;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-col a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: rgba(247,245,242,0.5);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer-col a:hover {
+      color: #1E1E1E;
+    }
+
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-contact-item span {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: rgba(247,245,242,0.5);
+    }
+
+    .footer-bottom {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(247,245,242,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-bottom p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: rgba(247,245,242,0.3);
+    }
+
+    .back-to-top {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: rgba(247,245,242,0.5);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .back-to-top:hover {
+      color: #1E1E1E;
+    }
+
+    @media (max-width: 1200px) {
+      .masonry-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .masonry-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+      
+      .top-right { display: flex; align-items: center; gap: 3rem; margin-left: auto; }
+      
+      .social-sidebar {
+        display: none;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .projects-section {
+        padding: 6rem 2rem 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .masonry-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .top-bar {
+        padding: 1rem 1.5rem;
+      }
+      
+      .projects-section {
+        padding: 5rem 1.5rem 0;
+      }
+      
+      .site-footer {
+        padding: 4rem 1.5rem 2rem;
+      }
+      
+      .cta-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-transition"></div>
+
+  <!-- Social Sidebar -->
+  <div class="social-sidebar">
+    <a href="https://www.instagram.com/aoriestudio/?hl=es" target="_blank" rel="noopener">IG</a>
+    <div class="divider"></div>
+    <a href="#">IN</a>
+  </div>
+
+  <!-- Top Bar -->
+  <nav class="top-bar" id="topBar">
+    <a href="../index.html" class="logo-link">AORI</a>
+    <div class="top-right">
+      <ul class="top-nav">
+        <li><a href="../sobre-nosotros/index.html">Nosotros</a></li>
+        <li><a href="index.html">Proyectos</a></li>
+        <li><a href="../metodologia/index.html">Metodología</a></li>
+        <li><a href="../cotiza/index.html" class="cta-btn">Cotiza tu proyecto</a></li>
+        <li><a href="../contacto/index.html">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Filters -->
+  <section class="filter-section">
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-filter="all">Todo</button>
+      <button class="filter-btn" data-filter="arquitectura">Arquitectura</button>
+      <button class="filter-btn" data-filter="bim">BIM</button>
+      <button class="filter-btn" data-filter="interiores">Interiores</button>
+      <button class="filter-btn" data-filter="gestión">Gestión de Proyectos</button>
+    </div>
+  </section>
+
+  <!-- Projects Masonry Grid -->
+  <section class="projects-section">
+    <div class="masonry-grid" id="masonryGrid">
+      
+      <a href="proyecto1/index.html" class="masonry-item span-tall" data-category="arquitectura">
+        <div class="img-placeholder img-1"></div>
+        <div class="overlay">
+          <span class="category">Arquitectura</span>
+          <h3>Residencia Horizon</h3>
+        </div>
+      </a>
+
+      <a href="proyecto2/index.html" class="masonry-item span-medium" data-category="arquitectura">
+        <div class="img-placeholder img-2"></div>
+        <div class="overlay">
+          <span class="category">Arquitectura</span>
+          <h3>Casa Vallemar</h3>
+        </div>
+      </a>
+
+      <a href="proyecto3/index.html" class="masonry-item span-short" data-category="arquitectura">
+        <div class="img-placeholder img-3"></div>
+        <div class="overlay">
+          <span class="category">Arquitectura</span>
+          <h3>Residencia StoneHealth</h3>
+        </div>
+      </a>
+
+      <a href="proyecto4/index.html" class="masonry-item span-tall" data-category="arquitectura">
+        <div class="img-placeholder img-4"></div>
+        <div class="overlay">
+          <span class="category">Arquitectura</span>
+          <h3>Casa Arequipeña</h3>
+        </div>
+      </a>
+
+      <a href="proyecto5/index.html" class="masonry-item span-medium" data-category="arquitectura">
+        <div class="img-placeholder img-5"></div>
+        <div class="overlay">
+          <span class="category">Arquitectura</span>
+          <h3>Residencia Tupac</h3>
+        </div>
+      </a>
+
+      <a href="proyecto6/index.html" class="masonry-item span-short" data-category="interiores">
+        <div class="img-placeholder img-6"></div>
+        <div class="overlay">
+          <span class="category">Interiores</span>
+          <h3>Remodelación Valdelomar</h3>
+        </div>
+      </a>
+
+      <a href="proyecto7/index.html" class="masonry-item span-medium" data-category="interiores">
+        <div class="img-placeholder img-7"></div>
+        <div class="overlay">
+          <span class="category">Interiores</span>
+          <h3>Remodelación Suarez</h3>
+        </div>
+      </a>
+
+      <a href="proyecto8/index.html" class="masonry-item span-tall" data-category="bim">
+        <div class="img-placeholder img-8"></div>
+        <div class="overlay">
+          <span class="category">BIM</span>
+          <h3>Hospitales de Salud Norte del Perú</h3>
+        </div>
+      </a>
+
+      <a href="proyecto9/index.html" class="masonry-item span-short" data-category="bim">
+        <div class="img-placeholder img-9"></div>
+        <div class="overlay">
+          <span class="category">BIM</span>
+          <h3>Colegios Bicentenario</h3>
+        </div>
+      </a>
+
+      <div class="masonry-item span-medium" data-category="gestión" style="cursor: default;">
+        <div class="img-placeholder img-10"></div>
+        <div class="overlay" style="opacity: 1;">
+          <span class="category">Gestión de Proyectos</span>
+          <h3>Próximamente</h3>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <p>Diseñamos espacios donde cada elemento tiene un propósito y cada decisión aporta valor. A través de la arquitectura, la Metodología y la integración de información, transformamos ideas en entornos eficientes, funciónales y duraderos. Creemos que la arquitectura no se define por los objetos que contiene, sino por las relaciones que crea. Porque la verdadera arquitectura ocurre en el espacio entre las cosas.</p>
+      </div>
+      <div class="footer-col footer-col-contact">
+        <div class="footer-emails">
+          <div class="footer-contact-item">
+            <span>proyectos@aori.site</span>
+          </div>
+          <div class="footer-contact-item">
+            <span>angelrodriguez@aori.site</span>
+          </div>
+        </div>
+        <div class="footer-phones">
+          <div class="footer-contact-item">
+            <span>+51 914 247 112</span>
+          </div>
+          <div class="footer-contact-item">
+            <span>+51 987 120 714</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <ul>
+          <li><a href="https://www.instagram.com/aoriestudio/?hl=es" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 AORI. Todos los derechos reservados.</p>
+    </div>
+    <div class="footer-bg-text">AORI</div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // Top bar scroll effect
+    window.addEventListener('scroll', function() {
+      const topBar = document.getElementById('topBar');
+      if (window.scrollY > 50) {
+        topBar.classList.add('scrolled');
+      } else {
+        topBar.classList.remove('scrolled');
+      }
+    });
+
+    // Filter functionality
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const masonryItems = document.querySelectorAll('.masonry-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Update active state
+        filterBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        const filter = this.getAttribute('data-filter');
+
+        masonryItems.forEach(item => {
+          const category = item.getAttribute('data-category');
+
+          if (filter === 'all' || category === filter) {
+            item.style.display = 'block';
+            setTimeout(() => {
+              item.style.opacity = '1';
+              item.style.transform = 'scale(1)';
+            }, 50);
+          } else {
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              item.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+
