@@ -282,6 +282,13 @@
       background: #A84A32;
     }
 
+    .form-success {
+      margin-top: 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #2e7d32;
+    }
+
     /* Footer - Banner replicado de Proyectos */
     .site-footer {
       background: #1E1E1E;
@@ -456,20 +463,22 @@
       </div>
       <div class="contact-form-area">
         <h2>Escríbenos</h2>
-        <form>
+        <form name="contacto" data-aori-form>
+          <input type="hidden" name="formulario" value="contacto">
           <div class="form-group">
             <label>Nombre</label>
-            <input type="text" required>
+            <input type="text" name="nombre" required>
           </div>
           <div class="form-group">
             <label>Correo</label>
-            <input type="email" required>
+            <input type="email" name="correo" required>
           </div>
           <div class="form-group">
             <label>Mensaje</label>
-            <textarea required></textarea>
+            <textarea name="mensaje" required></textarea>
           </div>
           <button type="submit" class="submit-btn">Enviar</button>
+          <p class="form-success" hidden>¡Gracias! Recibimos tu mensaje, te contactaremos pronto.</p>
         </form>
       </div>
     </div>
@@ -516,6 +525,35 @@
   <div class="page-transition"></div>
 
   <script src="../js/main.js"></script>
+  <script>
+    // Envío de formularios a Google Sheets (Apps Script)
+    const AORI_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwIdyWk1nz1VU65PLN71H4dz1aIB0s1EYkAIOPz0WvA4ANUrt_fe39htAkDhGJ7Z_yJaw/exec";
+    document.querySelectorAll('form[data-aori-form]').forEach(function(form) {
+      form.addEventListener('submit', function(ev) {
+        ev.preventDefault();
+        if (AORI_SCRIPT_URL.indexOf('PEGA_AQUI') === 0) {
+          alert('Formulario en configuración, intenta más tarde.');
+          return;
+        }
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        const btn = form.querySelector('.submit-btn');
+        const msg = form.querySelector('.form-success');
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+        fetch(AORI_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
+          .then(function() {
+            form.reset();
+            if (msg) msg.hidden = false;
+            btn.textContent = 'Enviado';
+          })
+          .catch(function() {
+            btn.disabled = false;
+            btn.textContent = 'Enviar';
+            alert('Ocurrió un error, intenta nuevamente.');
+          });
+      });
+    });
+  </script>
   <script>
     window.addEventListener('scroll', function() {
       const topBar = document.getElementById('topBar');
