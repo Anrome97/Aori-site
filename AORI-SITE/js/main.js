@@ -29,11 +29,19 @@ function initPageTransitions() {
     }, 500);
   });
 
+  function resetTransition() {
+    transition.classList.remove('active');
+    transition.classList.remove('exit');
+  }
+
   window.addEventListener('load', function() {
-    transition.classList.add('active');
-    setTimeout(function() {
-      transition.classList.remove('active');
-    }, 100);
+    setTimeout(resetTransition, 60);
+  });
+
+  // Al retroceder/avanzar el navegador restaura la página desde bfcache
+  // sin disparar 'load', dejando el overlay visible (página en blanco).
+  window.addEventListener('pageshow', function() {
+    setTimeout(resetTransition, 60);
   });
 }
 
