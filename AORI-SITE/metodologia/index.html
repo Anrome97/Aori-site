@@ -204,51 +204,76 @@
       hyphens: auto;
     }
 
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      column-gap: 2.5rem;
-      row-gap: 2.5rem;
-      max-width: 1400px;
-      margin: 0 auto;
+    /* === Flujo de 7 pasos (tira horizontal, fondo claro) === */
+    .flow-scroll {
+      overflow-x: auto;
       padding: 0 4rem 6rem;
     }
 
-    .step-card {
-      display: flex;
-      flex-direction: column;
+    .flow-strip {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(200px, 1fr));
+      min-width: 1400px;
+      max-width: 1680px;
+      margin: 0 auto;
+    }
+
+    .flow-col {
       background: #fff;
       border: 1px solid #e5e5e5;
-      overflow: hidden;
-      position: relative;
+      border-left: none;
+      display: flex;
+      flex-direction: column;
     }
 
-    .step-card:nth-child(1) { grid-column: 1 / span 2; }
-    .step-card:nth-child(2) { grid-column: 3 / span 2; }
-    .step-card:nth-child(3) { grid-column: 5 / span 2; }
-    .step-card:nth-child(4) { grid-column: 7 / span 2; }
-    .step-card:nth-child(5) { grid-column: 2 / span 2; }
-    .step-card:nth-child(6) { grid-column: 4 / span 2; }
-    .step-card:nth-child(7) { grid-column: 6 / span 2; }
+    .flow-col:first-child {
+      border-left: 1px solid #e5e5e5;
+    }
 
-    .step-card:nth-child(1)::after,
-    .step-card:nth-child(2)::after,
-    .step-card:nth-child(3)::after,
-    .step-card:nth-child(5)::after,
-    .step-card:nth-child(6)::after {
-      content: '';
-      position: absolute;
-      top: 90px;
-      right: -2.5rem;
-      width: 2.5rem;
-      height: 2px;
+    .flow-head {
+      padding: 1.5rem 1.25rem 1.25rem;
+    }
+
+    .flow-num {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .flow-num span {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: #1a1a1a;
+      line-height: 1;
+    }
+
+    .flow-num i {
+      flex: 1;
+      height: 1px;
       background: #C45A3C;
-      opacity: 0.4;
+      opacity: 0.5;
     }
 
-    .step-sketch {
+    .flow-head h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: #1a1a1a;
+      margin-bottom: 0.4rem;
+    }
+
+    .flow-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .flow-img {
       position: relative;
-      min-height: 180px;
+      aspect-ratio: 4/5;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -257,56 +282,69 @@
         linear-gradient(rgba(30,30,30,0.06) 1px, transparent 1px),
         linear-gradient(90deg, rgba(30,30,30,0.06) 1px, transparent 1px);
       background-size: 28px 28px;
-      border-bottom: 1px dashed #C45A3C;
+      border-top: 1px solid #e5e5e5;
+      border-bottom: 1px solid #e5e5e5;
+      overflow: hidden;
     }
 
-    .step-sketch .sketch-number {
+    .flow-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .flow-img .sketch-number {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 5rem;
+      font-size: 4rem;
       font-weight: 400;
       color: rgba(30,30,30,0.12);
       line-height: 1;
     }
 
-    .step-sketch .sketch-label {
+    .flow-img .sketch-label {
       position: absolute;
       bottom: 0.8rem;
       left: 1rem;
       font-family: 'Inter', sans-serif;
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       font-weight: 600;
       color: #C45A3C;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
     }
 
-    .step-body {
-      padding: 2rem;
+    .flow-list {
+      list-style: none;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
       flex: 1;
     }
 
-    .step-number {
+    .flow-list li {
       font-family: 'Inter', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #C45A3C;
-      letter-spacing: 0.15em;
-      margin-bottom: 1rem;
+      font-size: 0.78rem;
+      color: #444;
+      line-height: 1.5;
     }
 
-    .step-card h3 {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.4rem;
-      font-weight: 400;
-      color: #1a1a1a;
-      margin-bottom: 1rem;
+    .flow-foot {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0 1.25rem 1.25rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      color: #999;
+      letter-spacing: 0.1em;
     }
 
-    .step-card p {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
-      color: #666;
-      line-height: 1.8;
+    .flow-foot i {
+      flex: 1;
+      height: 1px;
+      background: rgba(30,30,30,0.15);
     }
 
     /* Footer - Banner replicado de Proyectos */
@@ -413,16 +451,8 @@
     }
 
     @media (max-width: 1100px) {
-      .steps-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .step-card:nth-child(n) {
-        grid-column: auto;
-      }
-
-      .step-card:nth-child(n)::after {
-        display: none;
+      .flow-scroll {
+        padding: 0 2rem 5rem;
       }
     }
 
@@ -439,17 +469,8 @@
         grid-template-columns: 1fr;
       }
 
-      .steps-grid {
-        grid-template-columns: 1fr;
+      .flow-scroll {
         padding: 0 1.5rem 4rem;
-      }
-
-      .step-card:nth-child(n) {
-        grid-column: auto;
-      }
-
-      .step-sketch {
-        min-height: 160px;
       }
 
       .method-section {
@@ -608,83 +629,134 @@
     </div>
   </section>
 
-  <!-- Steps -->
-  <div class="steps-grid">
-    <div class="step-card">
-      <div class="step-sketch" style="background-color: #EDEAE5;">
-        <span class="sketch-number">01</span>
-        <span class="sketch-label">Boceto 01 — Diálogo</span>
+  <!-- Flujo 7 pasos -->
+  <div class="flow-scroll">
+    <div class="flow-strip">
+      <div class="flow-col">
+        <div class="flow-head">
+          <div class="flow-num"><span>01</span><i></i></div>
+          <h3>Diálogo</h3>
+          <p class="flow-tag">Entender antes de diseñar.</p>
+        </div>
+        <div class="flow-img">
+          <span class="sketch-number">01</span>
+          <span class="sketch-label">Imagen 01</span>
+        </div>
+        <ul class="flow-list">
+          <li>Reunión inicial</li>
+          <li>Escucha activa</li>
+          <li>Análisis del contexto</li>
+          <li>Identificación de necesidades</li>
+        </ul>
+        <div class="flow-foot"><span>01</span><i></i></div>
       </div>
-      <div class="step-body">
-        <p class="step-number">01</p>
-        <h3>Diálogo y comprensión inicial</h3>
-        <p>Reunión para entender a fondo las necesidades, la visión y el propósito que tendrá el espacio. El objetivo es alinear expectativas desde el primer día.</p>
+      <div class="flow-col">
+        <div class="flow-head">
+          <div class="flow-num"><span>02</span><i></i></div>
+          <h3>Objetivos</h3>
+          <p class="flow-tag">Definir con claridad el propósito.</p>
+        </div>
+        <div class="flow-img">
+          <span class="sketch-number">02</span>
+          <span class="sketch-label">Imagen 02</span>
+        </div>
+        <ul class="flow-list">
+          <li>Definición de objetivos</li>
+          <li>Alcance del proyecto</li>
+          <li>Viabilidad técnica</li>
+          <li>Estrategia de desarrollo</li>
+        </ul>
+        <div class="flow-foot"><span>02</span><i></i></div>
       </div>
-    </div>
-    <div class="step-card">
-      <div class="step-sketch" style="background-color: #E7E2D8;">
-        <span class="sketch-number">02</span>
-        <span class="sketch-label">Boceto 02 — Objetivos</span>
+      <div class="flow-col">
+        <div class="flow-head">
+          <div class="flow-num"><span>03</span><i></i></div>
+          <h3>Diseño</h3>
+          <p class="flow-tag">Explorar posibilidades con base en información.</p>
+        </div>
+        <div class="flow-img">
+          <span class="sketch-number">03</span>
+          <span class="sketch-label">Imagen 03</span>
+        </div>
+        <ul class="flow-list">
+          <li>Concepto arquitectónico</li>
+          <li>Desarrollo de propuestas</li>
+          <li>Iteración y validación</li>
+          <li>Definición de materialidad</li>
+        </ul>
+        <div class="flow-foot"><span>03</span><i></i></div>
       </div>
-      <div class="step-body">
-        <p class="step-number">02</p>
-        <h3>Definición de objetivos</h3>
-        <p>Se establecen metas claras y precisas. En esta etapa se definen los tiempos, el presupuesto y los resultados exactos que se esperan obtener.</p>
+      <div class="flow-col">
+        <div class="flow-head">
+          <div class="flow-num"><span>04</span><i></i></div>
+          <h3>Construcción virtual</h3>
+          <p class="flow-tag">Coordinar antes de construir.</p>
+        </div>
+        <div class="flow-img">
+          <span class="sketch-number">04</span>
+          <span class="sketch-label">Imagen 04</span>
+        </div>
+        <ul class="flow-list">
+          <li>Modelado BIM multidisciplinario</li>
+          <li>Coordinación de especialidades</li>
+          <li>Detección de interferencias</li>
+          <li>Simulaciones (4D / 5D)</li>
+        </ul>
+        <div class="flow-foot"><span>04</span><i></i></div>
       </div>
-    </div>
-    <div class="step-card">
-      <div class="step-sketch" style="background-color: #E2DED2;">
-        <span class="sketch-number">03</span>
-        <span class="sketch-label">Boceto 03 — Alcances</span>
+      <div class="flow-col">
+        <div class="flow-head">
+          <div class="flow-num"><span>05</span><i></i></div>
+          <h3>Documentación</h3>
+          <p class="flow-tag">Precisar para ejecutar.</p>
+        </div>
+        <div class="flow-img">
+          <span class="sketch-number">05</span>
+          <span class="sketch-label">Imagen 05</span>
+        </div>
+        <ul class="flow-list">
+          <li>Planos y especificaciones</li>
+          <li>Metrados y presupuestos</li>
+          <li>Expediente técnico</li>
+          <li>Documentación para obra</li>
+        </ul>
+        <div class="flow-foot"><span>05</span><i></i></div>
       </div>
-      <div class="step-body">
-        <p class="step-number">03</p>
-        <h3>Primeros alcances y participación continua</h3>
-        <p>El cliente forma parte activa del proceso. Se realizan los primeros bosquejos y esquemas generales para asegurar que el diseño avanza en la dirección correcta antes de entrar en detalles técnicos.</p>
+      <div class="flow-col">
+        <div class="flow-head">
+          <div class="flow-num"><span>06</span><i></i></div>
+          <h3>Construcción</h3>
+          <p class="flow-tag">Construir con información.</p>
+        </div>
+        <div class="flow-img">
+          <span class="sketch-number">06</span>
+          <span class="sketch-label">Imagen 06</span>
+        </div>
+        <ul class="flow-list">
+          <li>Acompañamiento técnico</li>
+          <li>Gestión de la información</li>
+          <li>Resolución de consultas</li>
+          <li>Control de calidad</li>
+        </ul>
+        <div class="flow-foot"><span>06</span><i></i></div>
       </div>
-    </div>
-    <div class="step-card">
-      <div class="step-sketch" style="background-color: #DDD9CC;">
-        <span class="sketch-number">04</span>
-        <span class="sketch-label">Boceto 04 — Construcción virtual</span>
-      </div>
-      <div class="step-body">
-        <p class="step-number">04</p>
-        <h3>Anteproyecto y Construcción Virtual (Metodología BIM)</h3>
-        <p>Antes de construir en el terreno, se "construye" el proyecto de forma virtual en 3D. Esto permite visualizar los espacios, realizar mejoras conjuntas y detectar posibles errores antes de ir a la obra, lo que evita sobrecostos y retrasos.</p>
-      </div>
-    </div>
-    <div class="step-card">
-      <div class="step-sketch" style="background-color: #D8D4C6;">
-        <span class="sketch-number">05</span>
-        <span class="sketch-label">Boceto 05 — Proyecto definitivo</span>
-      </div>
-      <div class="step-body">
-        <p class="step-number">05</p>
-        <h3>Proyecto definitivo</h3>
-        <p>Con el modelo virtual aprobado, se genera toda la documentación técnica, los planos exactos y los expedientes listos para comenzar la ejecución.</p>
-      </div>
-    </div>
-    <div class="step-card">
-      <div class="step-sketch" style="background-color: #D3CFC0;">
-        <span class="sketch-number">06</span>
-        <span class="sketch-label">Boceto 06 — Construcción</span>
-      </div>
-      <div class="step-body">
-        <p class="step-number">06</p>
-        <h3>Construcción</h3>
-        <p>Ejecución de la obra física. Al haber resuelto previamente los conflictos en la construcción virtual, la obra avanza de manera más fluida, segura y respetando el presupuesto establecido.</p>
-      </div>
-    </div>
-    <div class="step-card">
-      <div class="step-sketch" style="background-color: #CECABA;">
-        <span class="sketch-number">07</span>
-        <span class="sketch-label">Boceto 07 — Entrega</span>
-      </div>
-      <div class="step-body">
-        <p class="step-number">07</p>
-        <h3>Cierre, entrega y operación</h3>
-        <p>Se hace entrega de la obra terminada junto con su "gemelo digital" (el modelo 3D final). Este archivo contiene toda la información real de lo construido (materiales, tuberías, medidas), lo cual facilita enormemente la administración y el mantenimiento futuro del inmueble.</p>
+      <div class="flow-col">
+        <div class="flow-head">
+          <div class="flow-num"><span>07</span><i></i></div>
+          <h3>Entrega</h3>
+          <p class="flow-tag">Conocimiento para el futuro.</p>
+        </div>
+        <div class="flow-img">
+          <span class="sketch-number">07</span>
+          <span class="sketch-label">Imagen 07</span>
+        </div>
+        <ul class="flow-list">
+          <li>Entrega de proyecto</li>
+          <li>Modelos as-built</li>
+          <li>Manuales de operación</li>
+          <li>Transferencia de conocimiento</li>
+        </ul>
+        <div class="flow-foot"><span>07</span><i></i></div>
       </div>
     </div>
   </div>
